@@ -36,12 +36,12 @@ include '../asset/koneksi/koneksi.php';
         <input type="hidden" value="0" name="s_pasien">
         <hr>
         <div>
-            <button type="submit" class="btn btn-success" name="simpan">Simpan</button>
-            <button type="reset" class="btn btn-danger">Reset</button>
+            <button type="submit" class="btn btn-success" name="simpan"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+            <button type="reset" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+            <a class="btn btn-secondary" onclick="history.back()"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
         </div>
     </form>
     <br>
-    <button class="btn btn-secondary" onclick="history.back()">Kembali</button>
 </div>
 </body>
 

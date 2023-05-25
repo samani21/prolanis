@@ -12,7 +12,7 @@ $data = mysqli_fetch_array($ambil)
         </div>
         <hr>
         <div>
-        <button class="btn btn-secondary" onclick="history.back()">Kembali</button>
+        <button class="btn btn-secondary" onclick="history.back()"><i class="fa-solid fa-chevron-left"></i> Kembali</button>
         <a href="edit_prolanis.php?id=<?php echo $id?>&pasien=<?php echo $data['id_pasien'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"> </i> Data pasien</a>
         </div>
         <br>

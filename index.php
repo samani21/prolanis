@@ -2,6 +2,8 @@
 include 'asset/header.php';
 include 'asset/koneksi/koneksi.php';
 $t = date('d-m-Y');
+
+date_default_timezone_set("Asia/Singapore");
 ?>
 
 <div class="container-fluid">
@@ -106,11 +108,11 @@ $t = date('d-m-Y');
                         $previous = $prolanis - 1;
                         $next = $prolanis + 1;
                         
-                        $data = mysqli_query($koneksi,"SELECT * FROM tb_porlanis LEFT JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien");
+                        $data = mysqli_query($koneksi,"SELECT * FROM tb_porlanis LEFT JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien  ORDER BY sts1,p_ulang ASC");
                         $jumlah_data = mysqli_num_rows($data);
                         $total_halaman1 = ceil($jumlah_data / $batas);
          
-                        $data_prolanis = mysqli_query($koneksi,"SELECT * FROM tb_porlanis LEFT JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien limit $halaman_awal, $batas");
+                        $data_prolanis = mysqli_query($koneksi,"SELECT * FROM tb_porlanis LEFT JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien  ORDER BY sts1,p_ulang ASC limit $halaman_awal, $batas");
                         $no = $halaman_awal+1;
 
                         while($dt = mysqli_fetch_array($data_prolanis)){
@@ -146,12 +148,12 @@ $t = date('d-m-Y');
 
                                 if($dt['sts1'] == '0' && $dt['p_ulang'] <= $t){
                                    ?>
-                                    <a href="porlanis/periksa_prolanis.php?id=<?php echo $dt['id_prolanis']?>&pasien=<?php echo $dt['id_pasien']?>" class="btn btn-primary">Periksa</a>
+                                    <a href="porlanis/periksa_prolanis.php?id=<?php echo $dt['id_prolanis']?>&pasien=<?php echo $dt['id_pasien']?>" class="btn btn-primary"><i class="fa-solid fa-list-check"></i> Periksa</a>
                                    <?php
                                 }
                                 if($dt['sts1'] == '1' && $dt['p_ulang'] <= $t){
                                     ?>
-                                      <a href="porlanis/cek.php?id=<?php echo $dt['id_prolanis']?>" class="btn btn-success">Cek</a>
+                                      <a href="porlanis/cek.php?id=<?php echo $dt['id_prolanis']?>" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i> Cek</a>
                                     <?php
                                  }
                             ?>

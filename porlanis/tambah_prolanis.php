@@ -2,6 +2,8 @@
 include '../asset/header.php';
 include '../asset/koneksi/koneksi.php';
 $kembali = date('d-m-Y', strtotime("6 month", strtotime(date("d-m-Y"))));
+date_default_timezone_set("Asia/Singapore");
+
 $id = $_GET['id'];
 
 $ambil = mysqli_query($koneksi,"SELECT * FROM tb_pasien WHERE id='$id'");

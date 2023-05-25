@@ -5,6 +5,7 @@ require 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+date_default_timezone_set("Asia/Singapore");
 $t = date('d-m-Y');
 
 $styleArray = [
@@ -110,7 +111,7 @@ $spreadsheet->getActiveSheet()->getStyle('T3')->applyFromArray($style_col);
 $spreadsheet->getActiveSheet()->getStyle('U3')->applyFromArray($style_col); 
 
 
-$data = mysqli_query($koneksi,"SELECT * FROM tb_porlanis LEFT JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien");
+$data = mysqli_query($koneksi,"SELECT * FROM tb_porlanis LEFT JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien  ORDER BY sts1,p_ulang ASC");
 $i = 4;
 $no = 1;
 while($d = mysqli_fetch_array($data))

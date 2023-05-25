@@ -2,6 +2,8 @@
 include '../asset/header.php';
 include '../asset/koneksi/koneksi.php';
 $kembali = date('d-m-Y', strtotime("6 month", strtotime(date("d-m-Y"))));
+date_default_timezone_set("Asia/Singapore");
+
 $id = $_GET['id'];
 $pasien = $_GET['pasien'];
 
@@ -121,8 +123,11 @@ $data = mysqli_fetch_array($ambil)
                     </div>
                 </div>
                 <hr>
-                <button class="btn btn-success" type="submit" name="simpan">Simpan</button>
-                <button class="btn btn-danger" type="reset">Reset</button>
+                <div>
+                    <button type="submit" class="btn btn-success" name="simpan"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+                    <button type="reset" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+                    <a class="btn btn-secondary" onclick="history.back()"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                </div>
             </div>
         </form>
     </div>

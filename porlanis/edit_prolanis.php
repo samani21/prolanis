@@ -2,6 +2,7 @@
 include '../asset/header.php';
 include '../asset/koneksi/koneksi.php';
 $kembali = date('d-m-Y', strtotime("6 month", strtotime(date("d-m-Y"))));
+date_default_timezone_set("Asia/Singapore");
 $id = $_GET['id'];
 $pasien = $_GET['pasien'];
 $ambil = mysqli_query($koneksi,"SELECT * FROM tb_porlanis LEFT JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien WHERE id_prolanis='$id'");
@@ -121,9 +122,10 @@ $data = mysqli_fetch_array($ambil)
                     </div>
                 </div>
                 <hr>
-                <button class="btn btn-success" type="submit" name="simpan">Simpan</button>
-                <button type="reset" class="btn btn-danger">Reset</button>
-                <button class="btn btn-secondary" onclick="history.back()">Kembali</button>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success" name="simpan"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+                <a class="btn btn-secondary" onclick="history.back()"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
             </div>
         </form>
     </div>
