@@ -1,19 +1,35 @@
 <?php
 include 'asset/header.php';
 include 'asset/koneksi/koneksi.php';
-$t = date('d-m-Y');
 
 date_default_timezone_set("Asia/Singapore");
+$t = date('d-m-Y');
+
+@$c = $_GET['cari'];
 ?>
 
 <div class="container-fluid">
     <h3 align="center">Data Prolanis</h3>
     <hr>
-    <a href="pasien/tambah_pasien.php" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tambah pasien</a>
-    <a href="cetak.php" class="btn btn-primary"><i class="fa-solid fa-print"></i> Cetak Excel</a>
+    <div class="row g-4">
+        <div class="col-3">
+            <a href="pasien/tambah_pasien.php" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tambah pasien</a>
+            <a href="cetak.php" class="btn btn-primary"><i class="fa-solid fa-print"></i> Cetak Excel</a>
+        </div>
+        <div class="col-6">
+            <form action="" method="get">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Cari" aria-label="Recipient's username" name="cari" aria-describedby="button-addon2">
+                    <button class="btn btn-primary" type="button" id="button-addon2"><i class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="row g-4">
         <div class="col-6">
-            <table class="table table-striped table-hover">
+            <span class="tex"><h4 align="center">Data Pasien</h4><hr></span>
+        <div class="table-responsive bg-white" id="no-more-tables">
+        <table class="table table-striped table-hover">
                 <thead>
                     <th>No</th>
                     <th>Nama</th>
@@ -32,32 +48,26 @@ date_default_timezone_set("Asia/Singapore");
                         $previous = $halaman - 1;
                         $next = $halaman + 1;
                         
-                        $data = mysqli_query($koneksi,"select * from tb_pasien");
+                        $data = mysqli_query($koneksi,"SELECT * FROM tb_pasien ORDER BY s_pasien ASC");
                         $jumlah_data = mysqli_num_rows($data);
                         $total_halaman = ceil($jumlah_data / $batas);
          
-                        $data_pegawai = mysqli_query($koneksi,"select * from tb_pasien limit $halaman_awal, $batas");
+                        $data_pegawai = mysqli_query($koneksi,"SELECT * FROM `tb_pasien` WHERE nama like '$c%' ORDER BY s_pasien ASC limit $halaman_awal, $batas");
                         $nomor = $halaman_awal+1;
 
                         while($data = mysqli_fetch_array($data_pegawai)){
                     ?>
-
                     <tr>
-                        <td><?php echo $nomor++ ?></td>
-                        <td style="text-transform: capitalize;"><?php echo $data['nama'] ?></td>
-                        <td><?php echo $data['bpjs'] ?></td>
-                        <td><?php echo $data['nik'] ?></td>
-                        <td><?php echo $data['tgl_lahir'] ?></td>
-                        <td><?php echo $data['alamat'] ?></td>
+                        <td data-title="No"><?php echo $nomor++ ?></td>
+                        <td style="text-transform: capitalize;" data-title="Nama"><?php echo $data['nama'] ?></td>
+                        <td data-title="No BPJS"><?php echo $data['bpjs'] ?></td>
+                        <td data-title="NIK"><?php echo $data['nik'] ?></td>
+                        <td data-title="Tanggal Lahir"><?php echo $data['tgl_lahir'] ?></td>
+                        <td data-title="Alamat"><?php echo $data['alamat'] ?></td>
                         <td>
-                            <a href="pasien/detail.php?id=<?php echo $data['id'] ?>" class="btn btn-secondary"><i class="fa-solid fa-address-card"></i> Lihat</a>
-                            <?php
-                                if($data['s_pasien'] == '0'){
-                                    ?>
+                            <a href="pasien/detail.php?id=<?php echo $data['id'] ?>" class="btn btn-secondary"><i class="fa-solid fa-address-card"></i></a>
+                            <a href="pasien/hapus.php?id=<?php echo $data['id'] ?>"  onclick="javascript: return confirm('Konfirmasi data akan dihapus');" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                             <a href="porlanis/tambah_prolanis.php?id=<?php echo $data['id']?>" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <?php
-                                }
-                            ?>
                         </td>
                     </tr>
                     <?php
@@ -65,6 +75,7 @@ date_default_timezone_set("Asia/Singapore");
                     ?>
                 </tbody>
             </table>
+        </div>
             <nav>
                 <ul class="pagination justify-content-left">
                     <li class="page-item">
@@ -84,107 +95,118 @@ date_default_timezone_set("Asia/Singapore");
                     </li>
                 </ul>
             </nav>
-
         </div>
         <div class="col-6">
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>BPJS</th>
-                        <th>Tgl lahir</th>
-                        <th>tgl pemeriksaan</th>
-                        <th>Aksi</th>
+            <span class="tex"><h4 align="center">Data Prolanis</h4><hr></span>
+            <div class="table-responsive bg-white" id="no-more-tables">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>BPJS</th>
+                            <th>Tgl lahir</th>
+                            <th>tgl pemeriksaan</th>
+                            <th>Aksi</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-                        $batas = 10;
-                        $prolanis = isset($_GET['prolanis'])?(int)$_GET['prolanis'] : 1;
-                        $halaman_awal = ($prolanis>1) ? ($prolanis * $batas) - $batas : 0;	
-         
-                        $previous = $prolanis - 1;
-                        $next = $prolanis + 1;
-                        
-                        $data = mysqli_query($koneksi,"SELECT * FROM tb_porlanis LEFT JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien  ORDER BY sts1,p_ulang ASC");
-                        $jumlah_data = mysqli_num_rows($data);
-                        $total_halaman1 = ceil($jumlah_data / $batas);
-         
-                        $data_prolanis = mysqli_query($koneksi,"SELECT * FROM tb_porlanis LEFT JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien  ORDER BY sts1,p_ulang ASC limit $halaman_awal, $batas");
-                        $no = $halaman_awal+1;
-
-                        while($dt = mysqli_fetch_array($data_prolanis)){
-                    ?>
-                            <tr>
-                            <td class="<?php
-                                if($dt['sts1'] == '0' && $dt['p_ulang'] <= $t){
-                                    echo 'text-danger';
-                                }
-                            ?>"><?php echo $no++ ?></td>
-                            <td class="<?php
-                                if($dt['sts1'] == '0' && $dt['p_ulang'] <= $t){
-                                    echo 'text-danger';
-                                }
-                            ?>" style="text-transform: capitalize;"><?php echo $dt['nama'] ?></td>
-                            <td class="<?php
-                                if($dt['sts1'] == '0' && $dt['p_ulang'] <= $t){
-                                    echo 'text-danger';
-                                }
-                            ?>"><?php echo $dt['bpjs'] ?></td>
-                            <td class="<?php
-                                if($dt['sts1'] == '0' && $dt['p_ulang'] <= $t){
-                                    echo 'text-danger';
-                                }
-                            ?>"><?php echo $dt['tgl_lahir'] ?></td>
-                            <td class="<?php
-                                if($dt['sts1'] == '0' && $dt['p_ulang'] <= $t){
-                                    echo 'text-danger';
-                                }
-                            ?>"><?php echo $dt['p_ulang'] ?></td>   
-                            <td>
-                            <?php
-
-                                if($dt['sts1'] == '0' && $dt['p_ulang'] <= $t){
-                                   ?>
-                                    <a href="porlanis/periksa_prolanis.php?id=<?php echo $dt['id_prolanis']?>&pasien=<?php echo $dt['id_pasien']?>" class="btn btn-primary"><i class="fa-solid fa-list-check"></i> Periksa</a>
-                                   <?php
-                                }
-                                if($dt['sts1'] == '1' && $dt['p_ulang'] <= $t){
-                                    ?>
-                                      <a href="porlanis/cek.php?id=<?php echo $dt['id_prolanis']?>" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i> Cek</a>
-                                    <?php
-                                 }
-                            ?>
-                            </td>
-                            </tr>
-                 
+                        </tr>
+                    </thead>
+                    <tbody>
                     <?php
-                        }
-                    ?>
-                </tbody>
-            </table>
-            <nav>
-                <ul class="pagination justify-content-left">
-                    <li class="page-item">
-                        <a class="page-link" <?php if($prolanis > 1){ echo "href='?prolanis=$previous'"; } ?>>Previous</a>
-                    </li>
-                    <?php 
-				for($x=1;$x<=$total_halaman1;$x++){
-					?>
-                    <li class="page-item"><a class="page-link" href="?prolanis=<?php echo $x ?>"><?php echo $x; ?></a>
-                    </li>
-                    <?php
-				}
-				?>
-                    <li class="page-item">
-                        <a class="page-link"
-                            <?php if($prolanis < $total_halaman) { echo "href='?prolanis=$next'"; } ?>>Next</a>
-                    </li>
-                </ul>
-            </nav>
+                            $batas = 10;
+                            $prolanis = isset($_GET['prolanis'])?(int)$_GET['prolanis'] : 1;
+                            $halaman_awal = ($prolanis>1) ? ($prolanis * $batas) - $batas : 0;	
+            
+                            $previous = $prolanis - 1;
+                            $next = $prolanis + 1;
+                            
+                            $data = mysqli_query($koneksi,"SELECT * FROM tb_porlanis JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien  ORDER BY sts1,p_ulang ASC");
+                            $jumlah_data = mysqli_num_rows($data);
+                            $total_halaman1 = ceil($jumlah_data / $batas);
+            
+                            $data_prolanis = mysqli_query($koneksi,"SELECT * FROM tb_porlanis JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien WHERE nama like '$c%' ORDER BY sts1,p_ulang ASC limit $halaman_awal, $batas");
+                            $no = $halaman_awal+1;
 
+                            while($dt = mysqli_fetch_array($data_prolanis)){
+                        ?>
+                                <tr>
+                                <td class="<?php
+                                    if(strtotime($dt['p_ulang']) <= strtotime($t)){
+                                    if(($dt['sts1']) == '0'){
+                                        echo 'text-danger';
+                                    }
+                                }
+                                ?>"><?php echo $no++ ?></td>
+                                <td class="<?php
+                                if(strtotime($dt['p_ulang']) <= strtotime($t)){
+                                    if(($dt['sts1']) == '0'){
+                                    echo 'text-danger';
+                                }
+                            }
+                                ?>" style="text-transform: capitalize;"><?php echo $dt['nama'] ?></td>
+                                <td class="<?php
+                                    if(strtotime($dt['p_ulang']) <= strtotime($t)){
+                                    if(($dt['sts1']) == '0'){
+                                        echo 'text-danger';
+                                    }
+                                }
+                                ?>"><?php echo $dt['bpjs'] ?></td>
+                                <td class="<?php
+                                    if(strtotime($dt['p_ulang']) <= strtotime($t)){
+                                    if(($dt['sts1']) == '0'){
+                                        echo 'text-danger';
+                                    }
+                                }
+                                ?>"><?php echo $dt['tgl_lahir'] ?></td>
+                                <td class="<?php
+                                    if(strtotime($dt['p_ulang']) <= strtotime($t)){
+                                    if(($dt['sts1']) == '0'){
+                                        echo 'text-danger';
+                                    }
+                                }
+                                ?>"><?php echo $dt['p_ulang'] ?></td>   
+                                <td>
+                                <?php
+
+                                    if(strtotime($dt['p_ulang']) <= strtotime($t)){
+                                        if(($dt['sts1']) == '0'){
+                                            ?>
+                                            <a href="porlanis/periksa_prolanis.php?id=<?php echo $dt['id_prolanis']?>&pasien=<?php echo $dt['id_pasien']?>" class="btn btn-primary"><i class="fa-solid fa-list-check"></i> Periksa</a>
+                                            <?php
+                                        }
+                                    }
+                                    
+                                ?>
+                                    <a href="porlanis/cek.php?id=<?php echo $dt['id_prolanis']?>" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i> Cek</a>
+
+                                </td>
+                                </tr>
+                    
+                        <?php
+                            }
+                        ?>
+                    </tbody>
+                </table>
+                <nav>
+                    <ul class="pagination justify-content-left">
+                        <li class="page-item">
+                            <a class="page-link" <?php if($prolanis > 1){ echo "href='?prolanis=$previous'"; } ?>>Previous</a>
+                        </li>
+                        <?php 
+                    for($x=1;$x<=$total_halaman1;$x++){
+                        ?>
+                        <li class="page-item"><a class="page-link" href="?prolanis=<?php echo $x ?>"><?php echo $x; ?></a>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                        <li class="page-item">
+                            <a class="page-link"
+                                <?php if($prolanis < $total_halaman) { echo "href='?prolanis=$next'"; } ?>>Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </div>

@@ -1,8 +1,9 @@
 <?php
 include '../asset/header.php';
 include '../asset/koneksi/koneksi.php';
-$kembali = date('d-m-Y', strtotime("6 month", strtotime(date("d-m-Y"))));
+
 date_default_timezone_set("Asia/Singapore");
+$kembali = date('Y-m-d', strtotime("6 month", strtotime(date("d-m-Y"))));
 
 $id = $_GET['id'];
 
@@ -23,46 +24,46 @@ $data = mysqli_fetch_array($ambil)
                     <div>
                         <label for="">Nama</label>
                         <input class="form-control form-control-sm" type="text" value="<?php echo $data['nama']?>" placeholder="Masukkan nama" name="nama"
-                        aria-label="default input example" require readonly>
+                        aria-label="default input example"  readonly>
                     </div>
                     <div>
                         <label for="">No BPJS</label>
                         <input class="form-control form-control-sm" type="text"  value="<?php echo $data['bpjs']?>" placeholder="Masukkan no BPJS" name="bpjs"
-                            aria-label="default input example" require readonly>
+                            aria-label="default input example"  readonly>
                     </div>
                     <div>
                         <label for="">NIK</label>
                         <input class="form-control form-control-sm" type="text"  value="<?php echo $data['nik']?>" placeholder="Masukkan NIk" name="nik"
-                            aria-label="default input example" require readonly>
+                            aria-label="default input example"  readonly>
                     </div>
                     <div>
                         <label for="">Tanggal lahir</label>
-                        <input class="form-control form-control-sm" type="date" name="tgl_lahir"  value="<?php echo $data['tgl_lahir']?>" aria-label="default input example" require>
+                        <input class="form-control form-control-sm" type="date" name="tgl_lahir"  value="<?php echo $data['tgl_lahir']?>" aria-label="default input example" >
                     </div>
                     <div>
                         <label for="">Tanggal Pemeriksaan</label>
                         <input class="form-control form-control-sm" type="text" value="<?php echo date('d-m-Y') ?>" placeholder="Masukkan TB" name="tgl_pemeriksaan"
-                            aria-label="default input example" require readonly>
+                            aria-label="default input example" >
                     </div>
                     <div>
                         <label for="">Rencana Pemeriksaan LAB ulangan</label>
                         <input class="form-control form-control-sm" type="text" value="<?php echo $kembali ?>" placeholder="Masukkan HDL" name="p_ulang"
-                            aria-label="default input example" require readonly>
+                            aria-label="default input example" >
                     </div>
                     <div>
                         <label for="">TB</label>
-                        <input class="form-control form-control-sm" type="number" placeholder="Masukkan TB" name="tb"
+                        <input class="form-control form-control-sm" type="number" placeholder="Masukkan TB" name="tb" id="tb"
                             aria-label="default input example" autofocus require>
                     </div>
                     <div>
                         <label for="">BB</label>
-                        <input class="form-control form-control-sm" type="number" placeholder="Masukkan BB" name="bb"
+                        <input class="form-control form-control-sm" type="number" placeholder="Masukkan BB" name="bb" id="bb"
                             aria-label="default input example" require>
                     </div>
                     <div>
                         <label for="">BMI</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan BMI" name="bmi"
-                            aria-label="default input example" require>
+                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan BMI" name="bmi" id="bmi"
+                            aria-label="default input example" require  readonly>
                     </div>
                     <div>
                         <label for="">Lingkar Perut</label>
@@ -73,7 +74,7 @@ $data = mysqli_fetch_array($ambil)
                 <div class="col-6">
                     <div>
                         <label for="">Tekanan Darah</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan Tekanan Darah" name="t_darah"
+                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan Tekanan Darah" name="t_darah" id="t_darah"
                             aria-label="default input example" require>
                     </div>
                     <div>
@@ -92,13 +93,13 @@ $data = mysqli_fetch_array($ambil)
                             aria-label="default input example" require>
                     </div>
                     <div>
-                        <label for="">BMI</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan BMI" name="bmi"
+                        <label for="">HDL</label>
+                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan HDL" name="hdl"
                             aria-label="default input example" require>
                     </div>
                     <div>
-                        <label for="">HDL</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan HDL" name="hdl"
+                        <label for="">HbA1C</label>
+                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan HbA1C" name="hba1c"
                             aria-label="default input example" require>
                     </div>
                     <div>
@@ -112,8 +113,8 @@ $data = mysqli_fetch_array($ambil)
                             aria-label="default input example" require>
                     </div>
                     <div>
-                        <label for="">Status</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan Status" name="status"
+                        <!-- <label for="">Status</label> -->
+                        <input class="form-control form-control-sm" type="hidden" placeholder="Masukkan Status" value="-" name="status" id="status"
                             aria-label="default input example" require>
                     </div>
                     <div>
@@ -121,17 +122,58 @@ $data = mysqli_fetch_array($ambil)
                         <input class="form-control form-control-sm" type="text" placeholder="Masukkan Keterangan" name="keterangan"
                             aria-label="default input example" require>
                     </div>
-                </div>
-                <hr>
-                <button class="btn btn-success" type="submit" name="simpan">Simpan</button>
+                    <hr>
+                    <div>
+                    <button class="btn btn-success" type="submit" name="simpan">Simpan</button>
                 <button type="reset" class="btn btn-danger">Reset</button>
-                <button class="btn btn-secondary" onclick="history.back()">Kembali</button>
+                <a href="#" class="btn btn-secondary" onclick="history.back()">Kembali</a>
+                    </div>
+                </div>
             </div>
         </form>
+        <script type="text/javascript">
+                            $("#bmi").keyup(function(){   
+                                var a= String($("#bmi").val());
+                                    if(a >= 30){
+                                        var i = 'Tidak Terkontrol';
+                                    }
+                            $("#status").val(i);
+                            });
+                            
+                            $("#t_darah").keyup(function(){ 
+                                var b= String($("#t_darah").val());  
+                                    if(b >= '140/80'){
+                                        var i = 'Tidak Terkontrol';
+                                    }else{
+                                        var i = 'Terkontrol'
+                                    }
+                            $("#status").val(i);
+                            });
+
+                            $("#tb").keyup(function(){   
+                            var a = parseFloat($("#tb").val());
+                            var b = parseFloat($("#bb").val());
+                            var t = a/100;
+                            var tb = t*t;
+                            var i = b/tb;
+                            hasil = i.toFixed(2);
+                            $("#bmi").val(hasil);
+                            });
+
+                            $("#bb").keyup(function(){   
+                            var a = parseFloat($("#tb").val());
+                            var b = parseFloat($("#bb").val());
+                            var t = a/100;
+                            var tb = t*t;
+                            var i = b/tb;   
+                            hasil = i.toFixed(2);
+                            $("#bmi").val(hasil);
+                            });
+        </script>
     </div>
-<br>
 </body>
 </html>
+
 
 
 <?php
@@ -183,6 +225,7 @@ $nama = addslashes($_POST['nama']);
     cholest= '$_POST[cholest]',
     ldl= '$_POST[ldl]',
     hdl= '$_POST[hdl]',
+    hba1c= '$_POST[hba1c]',
     trigliserida= '$_POST[trigliserida]',
     f_ginjal= '$_POST[f_ginjal]',
     p_ulang= '$_POST[p_ulang]',

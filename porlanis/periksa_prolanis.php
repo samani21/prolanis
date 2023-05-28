@@ -1,8 +1,9 @@
 <?php
 include '../asset/header.php';
 include '../asset/koneksi/koneksi.php';
-$kembali = date('d-m-Y', strtotime("6 month", strtotime(date("d-m-Y"))));
+
 date_default_timezone_set("Asia/Singapore");
+$kembali = date('d-m-Y', strtotime("6 month", strtotime(date("d-m-Y"))));
 
 $id = $_GET['id'];
 $pasien = $_GET['pasien'];
@@ -42,26 +43,26 @@ $data = mysqli_fetch_array($ambil)
                     <div>
                         <label for="">Tanggal Pemeriksaan</label>
                         <input class="form-control form-control-sm" type="text" value="<?php echo date('d-m-Y') ?>" placeholder="Masukkan TB" name="tgl_pemeriksaan"
-                            aria-label="default input example" require readonly>
+                            aria-label="default input example" require>
                     </div>
                     <div>
                         <label for="">Rencana Pemeriksaan LAB ulangan</label>
                         <input class="form-control form-control-sm" type="text" value="<?php echo $kembali ?>" placeholder="Masukkan HDL" name="p_ulang"
-                            aria-label="default input example" require readonly>
+                            aria-label="default input example" require>
                     </div>
                     <div>
                         <label for="">TB</label>
-                        <input class="form-control form-control-sm" type="number" placeholder="Masukkan TB" name="tb"
+                        <input class="form-control form-control-sm" type="number" placeholder="Masukkan TB" name="tb" id="tb"
                             aria-label="default input example" autofocus require>
                     </div>
                     <div>
                         <label for="">BB</label>
-                        <input class="form-control form-control-sm" type="number" placeholder="Masukkan BB" name="bb"
+                        <input class="form-control form-control-sm" type="number" placeholder="Masukkan BB" name="bb" id="bb"
                             aria-label="default input example" require>
                     </div>
                     <div>
                         <label for="">BMI</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan BMI" name="bmi"
+                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan BMI" name="bmi" id="bmi"
                             aria-label="default input example" require>
                     </div>
                     <div>
@@ -92,13 +93,13 @@ $data = mysqli_fetch_array($ambil)
                             aria-label="default input example" require>
                     </div>
                     <div>
-                        <label for="">BMI</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan BMI" name="bmi"
+                        <label for="">HDL</label>
+                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan HDL" name="hdl"
                             aria-label="default input example" require>
                     </div>
                     <div>
-                        <label for="">HDL</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan HDL" name="hdl"
+                        <label for="">HbA1C</label>
+                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan HbA1C" name="hba1c"
                             aria-label="default input example" require>
                     </div>
                     <div>
@@ -112,8 +113,8 @@ $data = mysqli_fetch_array($ambil)
                             aria-label="default input example" require>
                     </div>
                     <div>
-                        <label for="">Status</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan Status" name="status"
+                        <!-- <label for="">Status</label> -->
+                        <input class="form-control form-control-sm" type="hidden" placeholder="Masukkan Status" value="-" name="status" id="status"
                             aria-label="default input example" require>
                     </div>
                     <div>
@@ -121,17 +122,55 @@ $data = mysqli_fetch_array($ambil)
                         <input class="form-control form-control-sm" type="text" placeholder="Masukkan Keterangan" name="keterangan"
                             aria-label="default input example" require>
                     </div>
-                </div>
-                <hr>
-                <div>
-                    <button type="submit" class="btn btn-success" name="simpan"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
-                    <button type="reset" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Reset</button>
-                    <a class="btn btn-secondary" onclick="history.back()"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                    <hr>
+                    <div>
+                        <button type="submit" class="btn btn-success" name="simpan"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+                        <button type="reset" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+                        <a class="btn btn-secondary" onclick="history.back()"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                    </div>
                 </div>
             </div>
         </form>
+        <script type="text/javascript">
+                            $("#bmi").keyup(function(){   
+                                var a= String($("#bmi").val());
+                                    if(a >= 30){
+                                        var i = 'Tidak Terkontrol';
+                                    }
+                            $("#status").val(i);
+                            });
+                            
+                            $("#t_darah").keyup(function(){ 
+                                var b= String($("#t_darah").val());  
+                                    if(b >= '140/80'){
+                                        var i = 'Tidak Terkontrol';
+                                    }else{
+                                        var i = 'Terkontrol'
+                                    }
+                            $("#status").val(i);
+                            });
+
+                            $("#tb").keyup(function(){   
+                            var a = parseFloat($("#tb").val());
+                            var b = parseFloat($("#bb").val());
+                            var t = a/100;
+                            var tb = t*t;
+                            var i = b/tb;
+                            hasil = i.toFixed(2);
+                            $("#bmi").val(hasil);
+                            });
+
+                            $("#bb").keyup(function(){   
+                            var a = parseFloat($("#tb").val());
+                            var b = parseFloat($("#bb").val());
+                            var t = a/100;
+                            var tb = t*t;
+                            var i = b/tb;   
+                            hasil = i.toFixed(2);
+                            $("#bmi").val(hasil);
+                            });
+        </script>
     </div>
-<br>
 </body>
 </html>
 
@@ -174,7 +213,8 @@ if(isset($_POST['simpan'])){
     gdp= '$_POST[gdp]',
     cholest= '$_POST[cholest]',
     ldl= '$_POST[ldl]',
-    hdl= '$_POST[hdl]',
+    hdl= '$_POST[hdl]',    
+    hba1c= '$_POST[hba1c]',
     trigliserida= '$_POST[trigliserida]',
     f_ginjal= '$_POST[f_ginjal]',
     p_ulang= '$_POST[p_ulang]',

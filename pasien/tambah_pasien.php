@@ -12,7 +12,7 @@ include '../asset/koneksi/koneksi.php';
         <div>
             <label for="">Nama</label>
             <input class="form-control" type="text" style="text-transform: capitalize;" placeholder="Masukkan nama" name="nama"
-                aria-label="default input example" autofocus require>
+                aria-label="default input example" autofocus required>
         </div>
         <div>
             <label for="">No BPJS</label>
@@ -50,7 +50,7 @@ include '../asset/koneksi/koneksi.php';
 <?php
 if(isset($_POST['simpan'])){
     ?>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         swal({
             title: "Berhasil!",
             text: "Pop-up berhasil ditampilkan",
@@ -71,7 +71,7 @@ if(isset($_POST['simpan'])){
             }
         }
         countDown();
-    </script>
+    </script> -->
 <?php
 
 $nama = addslashes($_POST['nama']);

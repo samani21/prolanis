@@ -18,6 +18,7 @@ $data = mysqli_fetch_array($ambil)
         <br>
         <div class="row g-4">
             <div class="col-6">
+                <span class="tex"><h4 align="center">Data Pasien</h4><hr></span>
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Nama </th>
@@ -42,6 +43,7 @@ $data = mysqli_fetch_array($ambil)
                 </table>
             </div>
             <div class="col-6">
+                <span class="tex"><h4 align="center">Riwayat Prolanis</h4><hr></span>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -62,13 +64,7 @@ $data = mysqli_fetch_array($ambil)
                                 <td><?php echo $dt['tgl_pemeriksaan'] ?></td>
                                 <td><?php echo $dt['p_ulang'] ?></td>
                                 <td>
-                                    <?php
-                                        if($dt['sts1']=='1'){
-                                            ?>
-                                                <a href="../porlanis/cek.php?id=<?php echo $dt['id_prolanis']?>" class="btn btn-success">Cek</a>
-                                            <?php
-                                        }
-                                    ?>
+                                     <a href="../porlanis/cek.php?id=<?php echo $dt['id_prolanis']?>" class="btn btn-success">Cek</a>    
                                 </td>
                             </tr>
                         <?php

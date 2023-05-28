@@ -41,12 +41,12 @@ $data = mysqli_fetch_array($ambil)
                     <div>
                         <label for="">Tanggal Pemeriksaan</label>
                         <input class="form-control form-control-sm" type="text" value="<?php echo $data['tgl_pemeriksaan'] ?>" placeholder="Masukkan TB" name="tgl_pemeriksaan"
-                            aria-label="default input example" require readonly>
+                            aria-label="default input example" require >
                     </div>
                     <div>
                         <label for="">Rencana Pemeriksaan LAB ulangan</label>
                         <input class="form-control form-control-sm" type="text" value="<?php echo $data['p_ulang'] ?>" placeholder="Masukkan HDL" name="p_ulang"
-                            aria-label="default input example" require readonly>
+                            aria-label="default input example" require >
                     </div>
                     <div>
                         <label for="">TB</label>
@@ -91,13 +91,13 @@ $data = mysqli_fetch_array($ambil)
                             aria-label="default input example" require>
                     </div>
                     <div>
-                        <label for="">BMI</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan BMI" name="bmi"value="<?php echo $data['bmi']?>"
+                        <label for="">HDL</label>
+                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan HDL" name="hdl" value="<?php echo $data['hdl']?>"
                             aria-label="default input example" require>
                     </div>
                     <div>
-                        <label for="">HDL</label>
-                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan HDL" name="hdl" value="<?php echo $data['hdl']?>"
+                        <label for="">HbA1C</label>
+                        <input class="form-control form-control-sm" type="text" placeholder="Masukkan HbA1C" name="hba1c"
                             aria-label="default input example" require>
                     </div>
                     <div>
@@ -120,12 +120,12 @@ $data = mysqli_fetch_array($ambil)
                         <input class="form-control form-control-sm" type="text" placeholder="Masukkan Keterangan" name="keterangan" value="<?php echo $data['keterangan']?>"
                             aria-label="default input example" require>
                     </div>
+                    <hr>
+                    <div>
+                        <button type="submit" class="btn btn-success" name="simpan"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+                        <a class="btn btn-secondary" onclick="history.back()"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
+                    </div>
                 </div>
-                <hr>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-success" name="simpan"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
-                <a class="btn btn-secondary" onclick="history.back()"><i class="fa-solid fa-chevron-left"></i> Kembali</a>
             </div>
         </form>
     </div>
@@ -173,6 +173,7 @@ if(isset($_POST['simpan'])){
     cholest= '$_POST[cholest]',
     ldl= '$_POST[ldl]',
     hdl= '$_POST[hdl]',
+    hba1c= '$_POST[hba1c]',
     trigliserida= '$_POST[trigliserida]',
     f_ginjal= '$_POST[f_ginjal]',
     p_ulang= '$_POST[p_ulang]',

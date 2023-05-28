@@ -37,15 +37,15 @@ $data = mysqli_fetch_array($ambil)
             <input class="form-control" type="text" value="<?php echo $data['alamat'] ?>" name="alamat" placeholder="Masukkan alamat"
                 aria-label="default input example" require>
         </div>
-        <input type="hidden" value="<?php echo $data['status'] ?>" name="status">
+        <input type="hidden" value="<?php echo $data['s_pasien'] ?>" name="s_pasien">
         <hr>
         <div>
             <button type="submit" class="btn btn-success" name="simpan">Simpan</button>
             <button type="reset" class="btn btn-danger">Reset</button>
+            <a class="btn btn-secondary" onclick="history.back()">Kembali</a>
         </div>
     </form>
     <br>
-    <button class="btn btn-secondary" onclick="history.back()">Kembali</button>
 </div>
 </body>
 
@@ -85,7 +85,7 @@ $nama = addslashes($_POST['nama']);
     nik= '$_POST[nik]',
     tgl_lahir= '$_POST[tgl_lahir]',
     alamat= '$_POST[alamat]',
-    status= '$_POST[status]'
+    s_pasien= '$_POST[s_pasien]'
     WHERE id = $id");
 }
 

@@ -13,7 +13,8 @@ $data = mysqli_fetch_array($ambil)
         <hr>
         <div>
         <button class="btn btn-secondary" onclick="history.back()"><i class="fa-solid fa-chevron-left"></i> Kembali</button>
-        <a href="edit_prolanis.php?id=<?php echo $id?>&pasien=<?php echo $data['id_pasien'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"> </i> Data pasien</a>
+        <a href="edit_prolanis.php?id=<?php echo $id?>&pasien=<?php echo $data['id_pasien'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"> </i> Edit</a>
+        <a href="hapus.php?id=<?php echo $id?>&pasien=<?php echo $data['id_pasien'] ?>"  onclick="javascript: return confirm('Konfirmasi data akan dihapus');" class="btn btn-danger"><i class="fa-solid fa-pen-to-square"> </i> Hapus</a>
         </div>
         <br>
         <div class="row g-4">
@@ -84,6 +85,10 @@ $data = mysqli_fetch_array($ambil)
                         <td><?php echo $data['hdl'] ?></td>
                     </tr>
                     <tr>
+                        <th>HbA1C</th>
+                        <td><?php echo $data['hba1c'] ?></td>
+                    </tr>
+                    <tr>
                         <th>TRIGLISERIDA</th>
                         <td><?php echo $data['trigliserida'] ?></td>
                     </tr>
@@ -97,11 +102,15 @@ $data = mysqli_fetch_array($ambil)
                     </tr>
                     <tr>
                         <th>Rencana Pemeriksaan LAB Ulang</th>
-                        <td><?php echo $data['p_ulang'] ?></td>
+                        <td><?php echo  $data['p_ulang']; ?></td>
                     </tr>
                     <tr>
                         <th>Status</th>
-                        <td><?php echo $data['status'] ?></td>
+                        <td><?php if($data['bmi'] >= 30 || $data['t_darah'] >= '140/80'){
+                            echo "Tidak Terkontrol";
+                        }else{
+                            echo "Terkontrol";
+                        } ?></td>
                     </tr>
                     <tr>
                         <th>Keterangan</th>
