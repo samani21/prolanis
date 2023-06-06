@@ -9,12 +9,20 @@ $t = date('d-m-Y');
 ?>
 
 <div class="container-fluid">
-    <h3 align="center">Data Prolanis</h3>
+    <h3 align="center">Prolanis</h3>
     <hr>
-    <div class="row g-4">
+    <div class="row g-2">
         <div class="col-3">
             <a href="pasien/tambah_pasien.php" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tambah pasien</a>
-            <a href="cetak.php" class="btn btn-primary"><i class="fa-solid fa-print"></i> Cetak Excel</a>
+            <a href="cetak.php" class="btn btn-primary"><i class="fa-solid fa-print"></i> Cetak </a>
+        </div>
+        <div class="col-3">
+        <form action="cetak_tgl.php" method="get">
+              <div class="input-group mb-3">
+              <input type="text" name="tgl" value="<?php echo date('Y-m-d'); ?>" class="form-control">
+                <button class="btn btn-primary"><i class="fa-solid fa-print"></i> Cetak</button>
+              </div>
+            </form>
         </div>
         <div class="col-6">
             <form action="" method="get">
@@ -26,7 +34,7 @@ $t = date('d-m-Y');
         </div>
     </div>
     <div class="row g-4">
-        <div class="col-6">
+        <div class="col-5">
             <span class="tex"><h4 align="center">Data Pasien</h4><hr></span>
         <div class="table-responsive bg-white" id="no-more-tables">
         <table class="table table-striped table-hover">
@@ -34,7 +42,6 @@ $t = date('d-m-Y');
                     <th>No</th>
                     <th>Nama</th>
                     <th>No BPJS</th>
-                    <th>NIK</th>
                     <th>Tgl lahir</th>
                     <th>Alamat</th>
                     <th>Aksi</th>
@@ -52,7 +59,7 @@ $t = date('d-m-Y');
                         $jumlah_data = mysqli_num_rows($data);
                         $total_halaman = ceil($jumlah_data / $batas);
          
-                        $data_pegawai = mysqli_query($koneksi,"SELECT * FROM `tb_pasien` WHERE nama like '$c%' ORDER BY s_pasien ASC limit $halaman_awal, $batas");
+                        $data_pegawai = mysqli_query($koneksi,"SELECT * FROM `tb_pasien` WHERE nama like '$c%' OR bpjs like '$c%'  ORDER BY s_pasien ASC limit $halaman_awal, $batas");
                         $nomor = $halaman_awal+1;
 
                         while($data = mysqli_fetch_array($data_pegawai)){
@@ -61,13 +68,19 @@ $t = date('d-m-Y');
                         <td data-title="No"><?php echo $nomor++ ?></td>
                         <td style="text-transform: capitalize;" data-title="Nama"><?php echo $data['nama'] ?></td>
                         <td data-title="No BPJS"><?php echo $data['bpjs'] ?></td>
-                        <td data-title="NIK"><?php echo $data['nik'] ?></td>
                         <td data-title="Tanggal Lahir"><?php echo $data['tgl_lahir'] ?></td>
                         <td data-title="Alamat"><?php echo $data['alamat'] ?></td>
                         <td>
                             <a href="pasien/detail.php?id=<?php echo $data['id'] ?>" class="btn btn-secondary"><i class="fa-solid fa-address-card"></i></a>
                             <a href="pasien/hapus.php?id=<?php echo $data['id'] ?>"  onclick="javascript: return confirm('Konfirmasi data akan dihapus');" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-                            <a href="porlanis/tambah_prolanis.php?id=<?php echo $data['id']?>" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <?php
+                            if($data['s_pasien'] == '0'){
+                            	?>
+                            	     <a href="porlanis/tambah_prolanis.php?id=<?php echo $data['id']?>" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <?php
+}
+                            ?>
+                       
                         </td>
                     </tr>
                     <?php
@@ -96,7 +109,7 @@ $t = date('d-m-Y');
                 </ul>
             </nav>
         </div>
-        <div class="col-6">
+        <div class="col-7">
             <span class="tex"><h4 align="center">Data Prolanis</h4><hr></span>
             <div class="table-responsive bg-white" id="no-more-tables">
                 <table class="table table-striped table-hover">
@@ -107,6 +120,8 @@ $t = date('d-m-Y');
                             <th>BPJS</th>
                             <th>Tgl lahir</th>
                             <th>tgl pemeriksaan</th>
+                            <th>Status</th>
+                            <th>Keterangan</th>
                             <th>Aksi</th>
 
                         </tr>
@@ -124,7 +139,7 @@ $t = date('d-m-Y');
                             $jumlah_data = mysqli_num_rows($data);
                             $total_halaman1 = ceil($jumlah_data / $batas);
             
-                            $data_prolanis = mysqli_query($koneksi,"SELECT * FROM tb_porlanis JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien WHERE nama like '$c%' ORDER BY sts1,p_ulang ASC limit $halaman_awal, $batas");
+                            $data_prolanis = mysqli_query($koneksi,"SELECT * FROM tb_porlanis JOIN tb_pasien ON tb_pasien.id = tb_porlanis.id_pasien WHERE nama like '$c%'  OR bpjs like '$c%' ORDER BY sts1,p_ulang ASC limit $halaman_awal, $batas");
                             $no = $halaman_awal+1;
 
                             while($dt = mysqli_fetch_array($data_prolanis)){
@@ -136,14 +151,14 @@ $t = date('d-m-Y');
                                         echo 'text-danger';
                                     }
                                 }
-                                ?>"><?php echo $no++ ?></td>
+                                ?>" data-title="Nomor"><?php echo $no++ ?></td>
                                 <td class="<?php
                                 if(strtotime($dt['p_ulang']) <= strtotime($t)){
                                     if(($dt['sts1']) == '0'){
                                     echo 'text-danger';
                                 }
                             }
-                                ?>" style="text-transform: capitalize;"><?php echo $dt['nama'] ?></td>
+                                ?>" style="text-transform: capitalize;" data-title="Nama" ><?php echo $dt['nama'] ?></td>
                                 <td class="<?php
                                     if(strtotime($dt['p_ulang']) <= strtotime($t)){
                                     if(($dt['sts1']) == '0'){
@@ -157,27 +172,55 @@ $t = date('d-m-Y');
                                         echo 'text-danger';
                                     }
                                 }
-                                ?>"><?php echo $dt['tgl_lahir'] ?></td>
+                                ?>" data-title="Tgl Lahir"><?php echo $dt['tgl_lahir'] ?></td>
                                 <td class="<?php
                                     if(strtotime($dt['p_ulang']) <= strtotime($t)){
                                     if(($dt['sts1']) == '0'){
                                         echo 'text-danger';
                                     }
                                 }
-                                ?>"><?php echo $dt['p_ulang'] ?></td>   
-                                <td>
+                                ?>" data-title="Pemeriksaan Ulang"><?php if( $dt['p_ulang'] == 0000-00-00){
+                                    echo '-';
+                                }else{
+                                    echo  $dt['p_ulang'];
+                                } ?></td>   
+                                <td class="<?php
+                                    if(strtotime($dt['p_ulang']) <= strtotime($t)){
+                                    if(($dt['sts1']) == '0'){
+                                        echo 'text-danger';
+                                    }
+                                }
+                                ?>" data-title="Status"><?php if($dt['bmi'] >= 30 || $dt['t_darah'] >= '140/80'){
+                                    echo "Tidak Terkontrol";
+                                }else{
+                                    echo "Terkontrol";
+                                } ?></td>
+                                <td class="<?php
+                                    if(strtotime($dt['p_ulang']) <= strtotime($t)){
+                                    if(($dt['sts1']) == '0'){
+                                        echo 'text-danger';
+                                    }
+                                }
+                                ?>" data-title="Keterangan"><?php echo $dt['keterangan'] ?></td>
+                                <td class="<?php
+                                    if(strtotime($dt['p_ulang']) <= strtotime($t)){
+                                    if(($dt['sts1']) == '0'){
+                                        echo 'text-danger';
+                                    }
+                                }
+                                ?>" data-title="Aksi">
                                 <?php
 
                                     if(strtotime($dt['p_ulang']) <= strtotime($t)){
                                         if(($dt['sts1']) == '0'){
                                             ?>
-                                            <a href="porlanis/periksa_prolanis.php?id=<?php echo $dt['id_prolanis']?>&pasien=<?php echo $dt['id_pasien']?>" class="btn btn-primary"><i class="fa-solid fa-list-check"></i> Periksa</a>
+                                            <a href="porlanis/periksa_prolanis.php?id=<?php echo $dt['id_prolanis']?>&pasien=<?php echo $dt['id_pasien']?>" class="btn btn-primary"><i class="fa-solid fa-list-check"></i></a>
                                             <?php
                                         }
                                     }
                                     
                                 ?>
-                                    <a href="porlanis/cek.php?id=<?php echo $dt['id_prolanis']?>" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i> Cek</a>
+                                    <a href="porlanis/cek.php?id=<?php echo $dt['id_prolanis']?>" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></a>
 
                                 </td>
                                 </tr>

@@ -16,26 +16,26 @@ $data = mysqli_fetch_array($ambil)
         <div>
             <label for="">Nama</label>
             <input class="form-control" type="text" style="text-transform: capitalize;" value="<?php echo $data['nama'] ?>" placeholder="Masukkan nama" name="nama"
-                aria-label="default input example" autofocus require>
+                aria-label="default input example" autofocus required>
         </div>
         <div>
             <label for="">No BPJS</label>
             <input class="form-control" type="text" value="<?php echo $data['bpjs'] ?>" placeholder="Masukkan no BPJS" name="bpjs"
-                aria-label="default input example" require>
+                aria-label="default input example" required>
         </div>
         <div>
             <label for="">NIK</label>
             <input class="form-control" type="text" value="<?php echo $data['nik'] ?>" placeholder="Masukkan NIk" name="nik"
-                aria-label="default input example" require>
+                aria-label="default input example" required>
         </div>
         <div>
             <label for="">Tanggal lahir</label>
-            <input class="form-control" type="date" value="<?php echo $data['tgl_lahir'] ?>" name="tgl_lahir" aria-label="default input example" require>
+            <input class="form-control" type="date" value="<?php echo $data['tgl_lahir'] ?>" name="tgl_lahir" aria-label="default input example" required>
         </div>
         <div>
             <label for="">alamat</label>
             <input class="form-control" type="text" value="<?php echo $data['alamat'] ?>" name="alamat" placeholder="Masukkan alamat"
-                aria-label="default input example" require>
+                aria-label="default input example" required>
         </div>
         <input type="hidden" value="<?php echo $data['s_pasien'] ?>" name="s_pasien">
         <hr>
@@ -62,7 +62,7 @@ if(isset($_POST['simpan'])){
             button: true
 
         });
-        var url = "http://localhost:8080/prolanis/"; // url tujuan
+        var url = "http://prolanis.rf.gd/"; // url tujuan
         var count = 1; // dalam detik
         function countDown() {
             if (count > 0) {

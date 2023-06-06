@@ -6,6 +6,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 date_default_timezone_set("Asia/Singapore");
+$tgl = $_GET['tgl'];
 $t = date('d-m-Y');
 
 $styleArray = [
@@ -113,7 +114,7 @@ $spreadsheet->getActiveSheet()->getStyle('U3')->applyFromArray($style_col);
 $spreadsheet->getActiveSheet()->getStyle('V3')->applyFromArray($style_col);  
 
 
-$data = mysqli_query($koneksi,"SELECT * FROM tb_porlanis  ORDER BY sts1,p_ulang ASC");
+$data = mysqli_query($koneksi,"SELECT * FROM tb_porlanis WHERE p_ulang LIKE '$tgl%' ORDER BY sts1,p_ulang ASC");
 $i = 4;
 $no = 1;
 while($d = mysqli_fetch_array($data))
@@ -145,7 +146,6 @@ while($d = mysqli_fetch_array($data))
         $sheet->setCellValue('T'.$i,$d['p_ulang']); 
     
     }
-    // $sheet->setCellValue('T'.$i, $d['p_ulang']);
     if($d['bmi'] >= '30' || $d['t_darah'] >= '140/80'){
         $sheet->setCellValue('U'.$i, 'Tidak Terkontrol'); 
     }else{

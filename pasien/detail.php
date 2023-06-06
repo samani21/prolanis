@@ -62,7 +62,11 @@ $data = mysqli_fetch_array($ambil)
                             <tr>
                                 <td><?php echo $no++ ?></td>
                                 <td><?php echo $dt['tgl_pemeriksaan'] ?></td>
-                                <td><?php echo $dt['p_ulang'] ?></td>
+                                <td><?php if( $dt['p_ulang'] == 0000-00-00){
+                                    echo '-';
+                                }else{
+                                    echo  $dt['p_ulang'];
+                                } ?></td>
                                 <td>
                                      <a href="../porlanis/cek.php?id=<?php echo $dt['id_prolanis']?>" class="btn btn-success">Cek</a>    
                                 </td>

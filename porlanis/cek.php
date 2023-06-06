@@ -97,12 +97,12 @@ $data = mysqli_fetch_array($ambil)
                         <td><?php echo $data['f_ginjal'] ?></td>
                     </tr>
                     <tr>
-                        <th>Fungsi Ginjal</th>
-                        <td><?php echo $data['f_ginjal'] ?></td>
-                    </tr>
-                    <tr>
                         <th>Rencana Pemeriksaan LAB Ulang</th>
-                        <td><?php echo  $data['p_ulang']; ?></td>
+                        <td><?php if( $data['p_ulang'] == 0000-00-00){
+                                    echo '-';
+                                }else{
+                                    echo  $data['p_ulang'];
+                                } ?></td>
                     </tr>
                     <tr>
                         <th>Status</th>

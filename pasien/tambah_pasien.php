@@ -17,21 +17,21 @@ include '../asset/koneksi/koneksi.php';
         <div>
             <label for="">No BPJS</label>
             <input class="form-control" type="text" placeholder="Masukkan no BPJS" name="bpjs"
-                aria-label="default input example" require>
+                aria-label="default input example" required>
         </div>
         <div>
             <label for="">NIK</label>
             <input class="form-control" type="text" placeholder="Masukkan NIk" name="nik"
-                aria-label="default input example" require>
+                aria-label="default input example" required>
         </div>
         <div>
             <label for="">Tanggal lahir</label>
-            <input class="form-control" type="date" name="tgl_lahir" aria-label="default input example" require>
+            <input class="form-control" type="date" name="tgl_lahir" aria-label="default input example" required>
         </div>
         <div>
             <label for="">alamat</label>
             <input class="form-control" type="text" name="alamat" placeholder="Masukkan alamat"
-                aria-label="default input example" require>
+                aria-label="default input example" required>
         </div>
         <input type="hidden" value="0" name="s_pasien">
         <hr>
@@ -50,7 +50,7 @@ include '../asset/koneksi/koneksi.php';
 <?php
 if(isset($_POST['simpan'])){
     ?>
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
         swal({
             title: "Berhasil!",
             text: "Pop-up berhasil ditampilkan",
@@ -58,7 +58,7 @@ if(isset($_POST['simpan'])){
             button: true
 
         });
-        var url = "http://localhost:8080/prolanis/"; // url tujuan
+        var url = "http://prolanis.rf.gd/"; // url tujuan
         var count = 1; // dalam detik
         function countDown() {
             if (count > 0) {
@@ -71,7 +71,7 @@ if(isset($_POST['simpan'])){
             }
         }
         countDown();
-    </script> -->
+    </script>
 <?php
 
 $nama = addslashes($_POST['nama']);
